@@ -35,10 +35,74 @@ if  ($formType === "contact")
 	exit;
 	}
 	// FORMULIR PEMINJAMAN FASILITAS
-	if ($formType === "facility") {
-		$namaPj = trim($_POST)["nama_Pj"] ?? "");
-	}
+    if ($formType === "facility") {
 
+        $namaPJ = trim($_POST["nama_pj"] ?? "");
+        $jenisFasilitas = trim($_POST["jenis_fasilitas"] ?? "");
+        $tanggalPinjam = trim($_POST["tanggal_pinjam"] ?? "");
+        $durasi = trim($_POST["durasi"] ?? "");
+        $keperluan = trim($_POST["keperluan"] ?? "");
+
+        $fasilitas = [
+            "Ruang Kelas",
+            "Aula",
+            "Laboratorium Komputer",
+            "Proyektor"
+        ];
+
+		$errors = [];
+
+        // Validasi PHP
+        if (strlen($namaPJ) < 3 || strlen($namaPJ) > 100) {
+            $errors[] = "Nama harus 3 sampai 100 karakter.";
+        }
+
+        if (!in_array($jenisFasilitas, $fasilitas, true)) {
+            $errors[] = "Jenis fasilitas tidak valid.";
+        }
+
+        $date = DateTime::createFromFormat("Y-m-d", $tanggalPinjam);
+
+        if (!$date || $date->format("Y-m-d") !== $tanggalPinjam) {
+            $errors[] = "Tanggal peminjaman tidak valid.";
+        }
+
+        if (!ctype_digit($durasi) || (int)$durasi < 1 || (int)$durasi > 24) {
+            $errors[] = "Durasi harus 1 sampai 24 jam.";
+        }
+
+        if (strlen($keperluan) < 5 || strlen($keperluan) > 500) {
+            $errors[] = "Keperluan harus 5 sampai 500 karakter.";
+        }
+
+        // Jika terdapat kesalahan
+        if (!empty($errors)) {
+
+            $_SESSION["facility_errors"] = $errors;
+
+            $_SESSION["facility_old"] = $_POST;
+
+            header("Location: index.php#peminjaman");
+            exit;
+        }
+
+        // Menyimpan hasil ke session
+        $_SESSION["facility_result"] = [
+            "nama_pj" => $namaPJ,
+            "jenis_fasilitas" => $jenisFasilitas,
+            "tanggal_pinjam" => $tanggalPinjam,
+            "durasi" => $durasi,
+            "keperluan" => $keperluan
+        ];
+		
+		unset($_SESSION["facility_errors"]);
+        unset($_SESSION["facility_old"]);
+
+        // Post Redirect Get
+        header("Location: index.php#peminjaman");
+        exit;
+    }
+{}
 
 // Mengamankan data sebelum ditampilkan kembali ke halaman HTML.
 // P6: PHP dasar dan pemrograman sisi peladen
