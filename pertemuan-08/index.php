@@ -107,7 +107,7 @@ if  ($formType === "contact")
 // Mengamankan data sebelum ditampilkan kembali ke halaman HTML.
 // P6: PHP dasar dan pemrograman sisi peladen
 // Bagian 1: Variabel dan konstanta
-$nim = "0344300002";
+$nim = "2611500059";
 $namaMahasiswa = "Varianda adi pranata";
 $programStudi = "TI";
 $tahunAkademik = "2026/2027";
@@ -256,7 +256,7 @@ switch ($programStudi) {
 			</p>
 
 			<form id="contactForm" class="js-contact-form" data-validation="contact" action="index.php" method="post" novalidate>
-				<div class="form-group">
+				<div class="form-group"><input type="hidden" name="form_type" value="contact">
 					<label for="nama">Nama Lengkap</label><br />
 
 					<input
