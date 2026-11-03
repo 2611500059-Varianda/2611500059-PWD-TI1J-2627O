@@ -351,10 +351,145 @@ switch ($programStudi) {
 				</article>
 			<?php endif; ?>
 		</section>
+		<section id="peminjaman">
+
+    <h2>Permohonan Peminjaman Fasilitas Kampus</h2>
+
+    <p>
+        Silakan isi formulir berikut untuk melakukan
+        permohonan peminjaman fasilitas kampus.
+    </p>
+
+    <?php if (!empty($_SESSION["facility_errors"])): ?>
+        <div class="form-feedback-error">
+            <?php foreach ($_SESSION["facility_errors"] as $error): ?>
+                <p><?= htmlspecialchars($error, ENT_QUOTES, "UTF-8") ?></p>
+            <?php endforeach; ?>
+        </div>
+        <?php unset($_SESSION["facility_errors"]); ?>
+    <?php endif; ?>
+
+    <form action="index.php" method="post"
+          id="facilityForm" novalidate>
+
+        <input type="hidden" name="form_type" value="facility">
+
+        <div class="form-group">
+            <label for="nama_pj">Nama Penanggung Jawab</label>
+            <input class="input-form"
+                   type="text"
+                   id="nama_pj"
+                   name="nama_pj"
+                   minlength="3"
+                   maxlength="100"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label for="jenis_fasilitas">Jenis Fasilitas</label>
+
+            <select class="input-form"
+                    id="jenis_fasilitas"
+                    name="jenis_fasilitas"
+                    required>
+
+                <option value="">-- Pilih Fasilitas --</option>
+                <option value="Ruang Kelas">Ruang Kelas</option>
+                <option value="Aula">Aula</option>
+                <option value="Laboratorium Komputer">
+                    Laboratorium Komputer
+                </option>
+                <option value="Proyektor">Proyektor</option>
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="tanggal_pinjam">Tanggal Peminjaman</label>
+
+            <input class="input-form"
+                   type="date"
+                   id="tanggal_pinjam"
+                   name="tanggal_pinjam"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label for="durasi">Durasi Peminjaman (jam)</label>
+
+            <input class="input-form"
+                   type="number"
+                   id="durasi"
+                   name="durasi"
+                   min="1"
+                   max="24"
+                   required
+                   placeholder="Contoh: 3">
+        </div>
+
+        <div class="form-group">
+            <label for="keperluan">Keperluan Peminjaman</label>
+
+            <textarea class="input-form"
+                      id="keperluan"
+                      name="keperluan"
+                      minlength="5"
+                      maxlength="500"
+                      required
+                      placeholder="Tuliskan keperluan peminjaman">
+            </textarea>
+        </div>
+
+        <button type="submit">Kirim</button>
+        <button type="reset">Batal</button>
+
+        <p id="facilityFeedback" aria-live="polite"></p>
+
+    </form>
+
+    <?php if (isset($_SESSION["facility_result"])): ?>
+
+        <?php $hasil = $_SESSION["facility_result"]; ?>
+
+        <article class="submission-result">
+
+            <h3>Data Peminjaman Berhasil Dikirim</h3>
+
+            <p>
+                <strong>Nama Penanggung Jawab:</strong>
+                <?= htmlspecialchars($hasil["nama_pj"], ENT_QUOTES, "UTF-8") ?>
+            </p>
+
+            <p>
+                <strong>Jenis Fasilitas:</strong>
+                <?= htmlspecialchars($hasil["jenis_fasilitas"], ENT_QUOTES, "UTF-8") ?>
+            </p>
+
+            <p>
+                <strong>Tanggal Peminjaman:</strong>
+                <?= htmlspecialchars($hasil["tanggal_pinjam"], ENT_QUOTES, "UTF-8") ?>
+            </p>
+
+            <p>
+                <strong>Durasi:</strong>
+                <?= htmlspecialchars($hasil["durasi"], ENT_QUOTES, "UTF-8") ?>
+                jam
+            </p>
+
+            <p>
+                <strong>Keperluan:</strong>
+                <?= nl2br(htmlspecialchars($hasil["keperluan"], ENT_QUOTES, "UTF-8")) ?>
+            </p>
+
+        </article>
+
+    <?php endif; ?>
+
+</section>
 	</main>
 
 	<footer>
-		<p>&copy; <?= date("Y") ?> <?php echo $namaMahasiswa; ?> [<?= $nim ?>]</p>
+		<p>&copy; <?= date("Y") ?> <?php echo $; ?> [<?= $nim ?>]</p>
 	</footer>
 	<script src="script.js"></script>
 </body>
