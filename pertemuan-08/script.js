@@ -126,3 +126,37 @@ contactForms.forEach((contactForm) => {
     }
   });
 });
+const facilityForm = document.getElementById("facilityForm");
+
+if (facilityForm) {
+
+    facilityForm.addEventListener("submit", function(event) {
+
+        const nama = document.getElementById("nama_pj").value.trim();
+        const fasilitas = document.getElementById("jenis_fasilitas").value;
+        const tanggal = document.getElementById("tanggal_pinjam").value;
+        const durasi = Number(document.getElementById("durasi").value);
+        const keperluan = document.getElementById("keperluan").value.trim();
+
+        let pesan = "";
+
+        if (nama.length < 3 || nama.length > 100) {
+            pesan = "Nama harus 3 sampai 100 karakter.";
+        } else if (fasilitas === "") {
+            pesan = "Pilih jenis fasilitas.";
+        } else if (tanggal === "") {
+            pesan = "Tanggal wajib diisi.";
+        } else if (!Number.isInteger(durasi) || durasi < 1 || durasi > 24) {
+            pesan = "Durasi harus 1 sampai 24 jam.";
+        } else if (keperluan.length < 5 || keperluan.length > 500) {
+            pesan = "Keperluan harus 5 sampai 500 karakter.";
+        }
+
+        if (pesan !== "") {
+            event.preventDefault();
+            document.getElementById("facilityFeedback").textContent = pesan;
+        }
+
+    });
+
+}
