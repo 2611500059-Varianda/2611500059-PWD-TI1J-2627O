@@ -3,6 +3,9 @@ session_start();
 
 // P7: Memproses data formulir dan menyimpannya ke dalam session.
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+	$formType= $_POST["form_type"] ?? "";
+	// FORMULIR KONTAK
+if  ($formType === "contact")
 	$nama = trim((string) ($_POST["nama"] ?? ""));
 	$email = trim((string) ($_POST["email"] ?? ""));
 	$semesterForm = trim((string) ($_POST["semester"] ?? ""));
@@ -30,16 +33,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	// PRG: mencegah pengiriman POST berulang ketika halaman dimuat ulang.
 	header("Location: index.php#contact");
 	exit;
-}
+	}
+	// FORMULIR PEMINJAMAN FASILITAS
+	if ($formType === "facility") {
+		$namaPj = trim($_POST)["nama_Pj"] ?? "");
+	}
+
 
 // Mengamankan data sebelum ditampilkan kembali ke halaman HTML.
 // P6: PHP dasar dan pemrograman sisi peladen
 // Bagian 1: Variabel dan konstanta
 $nim = "0344300002";
-$namaMahasiswa = "Cantika Putih";
-$programStudi = "SI";
+$namaMahasiswa = "Varianda adi pranata";
+$programStudi = "TI";
 $tahunAkademik = "2026/2027";
-$semester = 4;
+$semester = 1;
 $ipk = 3.75;
 $statusAktif = true;
 $catatanTambahan = null;
@@ -107,6 +115,7 @@ switch ($programStudi) {
 				<li><a href="#home">Beranda</a></li>
 				<li><a href="#about">Tentang</a></li>
 				<li><a href="#contact">Kontak</a></li>
+				<li><a href="#Peminjaman">Peminjaman Fasilitas</a></li>
 			</ul>
 		</nav>
 	</header>
